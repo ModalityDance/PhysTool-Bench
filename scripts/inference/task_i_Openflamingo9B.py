@@ -90,23 +90,22 @@ def load_openflamingo(model_name: str):
 # =========================
 
 def vqa_image_openflamingo(model, image_processor, tokenizer, device, image_fp, prompt, max_new_tokens=64):
-    """Run inference on a single image with a text prompt."""
-    # Load and preprocess image
     image = Image.open(image_fp).convert("RGB")
     vision_x = image_processor(image)
-    # Shape: [1, 1, C, H, W]  (batch, num_frames, channels, height, width)
-    vision_x = vision_x.unsqueeze(0).unsqueeze(0).to(device=device, dtype=DTYPE)
+    # OpenFlamingo 期望的维度是 (batch_size, num_media, num_frames, channels, height, width)
+    vision_x = vision_x.unsqueeze(0).unsqueeze(1).unsqueeze(1).to(device=device, dtype=DTYPE)
 
-    # Format prompt as required by OpenFlamingo (image placeholder + text)
-    full_prompt = f"<image>{prompt}"
+    # 【关键修复】使用 OpenFlamingo 标准的 Zero-shot Prompt 格式
+    # 必须包含 <image> 标签，并使用 Question/Answer 结构引导输出
+    full_prompt = f"<image>Question: {prompt} Answer:"
 
     tokenizer.padding_side = "left"
     lang_x = tokenizer([full_prompt], return_tensors="pt", padding=True)
     input_ids = lang_x["input_ids"].to(device)
     attention_mask = lang_x["attention_mask"].to(device)
 
-    # Generation parameters
-    eos_token_id = tokenizer("<|endofchunk|>", add_special_tokens=False)["input_ids"][-1]
+    # 获取结束标志，OpenFlamingo 通常在生成完一个 chunk 后输出 <|endofchunk|>
+    endofchunk_token_id = tokenizer.encode("<|endofchunk|>")[-1]
 
     with torch.no_grad():
         generated_ids = model.generate(
@@ -114,23 +113,23 @@ def vqa_image_openflamingo(model, image_processor, tokenizer, device, image_fp, 
             lang_x=input_ids,
             attention_mask=attention_mask,
             max_new_tokens=max_new_tokens,
-            num_beams=1,               # deterministic, avoids random variations
-            do_sample=False,
+            num_beams=1,
+            do_sample=False,            # 贪婪解码
             pad_token_id=tokenizer.pad_token_id,
-            eos_token_id=eos_token_id,
+            eos_token_id=endofchunk_token_id, # 【可选优化】遇到 endofchunk 时停止生成
             repetition_penalty=1.2,
             no_repeat_ngram_size=3,
         )
 
-    # Decode only the newly generated tokens (skip the prompt)
     prompt_length = input_ids.shape[1]
     new_tokens = generated_ids[:, prompt_length:]
     response = tokenizer.batch_decode(new_tokens, skip_special_tokens=True)[0]
 
-    # Clean up whitespace
+    response = response.replace("<|endofchunk|>", "").strip()
+    print(f"[DEBUG] Raw response: '{response}'")
+    
     response = " ".join(response.strip().split())
     return response
-
 
 # =========================
 # Batch Processing (per item, with checkpoint resume)

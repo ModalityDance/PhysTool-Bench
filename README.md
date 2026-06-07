@@ -235,23 +235,36 @@ Since different models require conflicting versions of transformers and other li
 
 #### **Conda (recommended)**
 
+For Open-Flamingo
 ```
-conda env create -f environments/<model_name>.yml
-eval "$(conda shell.bash hook)" && conda activate <model_name>_env
-```
-For example:
-```
-# For Open-Flamingo
-conda env create -f environments/flamingo.yml
+conda create -n flamingo_env python=3.10 -y
 eval "$(conda shell.bash hook)" && conda activate flamingo_env
 
-# For mPLUG-Owl3
-conda env create -f environments/mplug.yml
-eval "$(conda shell.bash hook)" && conda activate mplug_env
+pip install torch==2.4.0 torchvision==0.19.0 torchaudio==2.4.0 --index-url https://download.pytorch.org/whl/cu121
+pip install transformers==4.28.1
+pip install open-flamingo==2.0.1 --no-deps
+pip install einops einops-exts open_clip_torch huggingface-hub Pillow accelerate sentencepiece
 
-# For MiniCPM
-conda env create -f environments/minicpm.yml
+```
+
+For mPLUG-Owl3
+```
+conda create -n mPLUG_env python=3.10 -y
+eval "$(conda shell.bash hook)" && conda activate mPLUG_env
+
+pip install torch==2.7.0 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install transformers==4.40.2
+pip install icecream einops 'accelerate>=0.26.0' pillow
+```
+
+For MiniCPM
+```
+conda create -n minicpm_env python=3.10 -y
 eval "$(conda shell.bash hook)" && conda activate minicpm_env
+
+pip install --upgrade torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+pip install "transformers<5.0.0" "timm>=1.0.0" "accelerate>=1.0.0"
+pip install sentencepiece pillow decord einops minicpmo hyperpyyaml speechbrain librosa onnx onnxruntime-gpu
 ```
 
 #### **Hardware Requirements (recommended to fill)**

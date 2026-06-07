@@ -65,9 +65,9 @@
     <img src="https://img.shields.io/badge/Paper-arXiv-b31b1b?style=for-the-badge&logo=arxiv" alt="Paper">
   </a>
 
-  <!-- HuggingFace Models -->
+  <!-- HuggingFace Datasets -->
   <a href="https://huggingface.co/datasets/ModalityDance/PhysTool-Bench">
-    <img src="https://img.shields.io/badge/HuggingFace-Models-fcc21b?style=for-the-badge&logo=huggingface&logoColor=white" alt="HF Models">
+    <img src="https://img.shields.io/badge/HuggingFace-Datasets-fcc21b?style=for-the-badge&logo=huggingface&logoColor=white" alt="HF Datasets">
   </a>
 
 </div>

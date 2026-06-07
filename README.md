@@ -244,7 +244,6 @@ pip install torch==2.4.0 torchvision==0.19.0 torchaudio==2.4.0 --index-url https
 pip install transformers==4.28.1
 pip install open-flamingo==2.0.1 --no-deps
 pip install einops einops-exts open_clip_torch huggingface-hub Pillow accelerate sentencepiece
-
 ```
 
 For mPLUG-Owl3
@@ -316,7 +315,7 @@ Throught API:
 python scripts/inference/task_ii_api.py -t YOUR_API_KEY -m <model_name> -i data/generation_checkpoint.json -o results --delay 2
 
 # For example:
-python scripts/inference/task_ii_api.py -t sk-xxxx -m  -i data/generation_checkpoint.json -o results --delay 2
+python scripts/inference/task_ii_api.py -t sk-xxxx -m gpt-4o -i data/generation_checkpoint.json -o results --delay 2
 ```
 
 For local models:
@@ -350,13 +349,13 @@ python scripts/evaluation/eval_tool_finding.py \
 
 Use Gemini as a Judge (by API):
 ```bash
-python scripts/evolution/eval_gemini.py -t YOUR_API_KEY -m <model_name> \
+python scripts/evaluation/eval_gemini.py -t YOUR_API_KEY -m <model_name> \
     -r results/task_ii_results_<model_name>.json \
     -o results/evaluation_of_<model_name>_with_gemini.json \
     -k 1,2,3
 
 # For example:
-python scripts/evolution/eval_gemini.py -t sk-xxxx -m MiniCPM \
+python scripts/evaluation/eval_gemini.py -t sk-xxxx -m MiniCPM \
     -r results/task_ii_results_MiniCPM.json \
     -o results/evaluation_of_MiniCPM_with_gemini.json \
     -k 1,2,3
@@ -364,13 +363,13 @@ python scripts/evolution/eval_gemini.py -t sk-xxxx -m MiniCPM \
 
 Use exsiting matching pairs:
 ```bash
-python scripts/evolution/eval_offline.py -m <model_name> \
+python scripts/evaluation/eval_offline.py -m <model_name> \
     -r results/task_ii_results_<model_name>.json \
     -o results/evaluation_of_<model_name>_with_gemini.json \
     -k 1,2,3
 
 # For example:
-python scripts/evolution/eval_offline.py -m MiniCPM \
+python scripts/evaluation/eval_offline.py -m MiniCPM \
     -r results/task_ii_results_MiniCPM.json \
     -o results/evaluation_of_MiniCPM_with_gemini.json \
     -k 1,2,3

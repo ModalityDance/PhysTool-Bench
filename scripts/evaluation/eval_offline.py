@@ -14,16 +14,12 @@ def is_safe_plural_match(w1: str, w2: str) -> bool:
     if w1 == w2:
         return True
         
-    # 确保 w1 始终是较短的字符串，统一基于短词进行词缀推演
     if len(w1) > len(w2):
         w1, w2 = w2, w1
         
-    # 规则 1: 直接加 's' (例如 clamp -> clamps, screwdriver -> screwdrivers)
     if w1 + 's' == w2:
         return True
         
-    # 规则 2: 加 'es' (严谨起见，限定原词词尾为 s, x, z, ch, sh, o)
-    # 例如 brush -> brushes, wrench -> wrenches, box -> boxes, glass -> glasses
     if w1 + 'es' == w2 and (
         w1.endswith('s') or 
         w1.endswith('x') or 
@@ -34,11 +30,9 @@ def is_safe_plural_match(w1: str, w2: str) -> bool:
     ):
         return True
         
-    # 规则 3: 辅音 + 'y' 变 'ies' (例如 battery -> batteries)
     if w1.endswith('y') and w1[:-1] + 'ies' == w2:
         return True
         
-    # 规则 4: 'f' 或 'fe' 变 'ves' (例如 knife -> knives, leaf -> leaves)
     if w1.endswith('f') and w1[:-1] + 'ves' == w2:
         return True
     if w1.endswith('fe') and w1[:-2] + 'ves' == w2:
@@ -47,10 +41,6 @@ def is_safe_plural_match(w1: str, w2: str) -> bool:
     return False
 
 def enforce_one_to_one(mapping: Dict[str, str], log_prefix: str = "") -> Dict[str, str]:
-    """
-    确保映射是一对一的：每个被识别的工具映射到一个唯一的目标工具，
-    且每个目标工具最多只被一个识别的工具使用。如果发现冲突，保留第一次出现的映射并丢弃其余的。
-    """
     seen_targets = set()
     clean = {}
     conflicts = []
@@ -71,22 +61,17 @@ def get_offline_matches(original_id: str, slot: int, identified: List[str], targ
     raw_mapping = offline_matching_dict.get(match_key, {})
     mapping = {str(k).lower(): str(v).lower() for k, v in raw_mapping.items()}
     
-    # ✨ 字符串匹配回退机制 (String-based matching fallback) - 采用严谨的 Two-Pass 策略
-    
-    # Pass 1: 绝对精确匹配 (如果 identified 完全等于 target 中的词汇，直接绑定，最高优先级)
     for ident_tool in identified:
         if ident_tool in target and ident_tool not in mapping:
             mapping[ident_tool] = ident_tool
             
-    # Pass 2: 安全单复数匹配 (对于字典没命中，且精确匹配也没找到的词，尝试单复数推导)
     for ident_tool in identified:
         if ident_tool not in mapping:
             for target_tool in target:
                 if is_safe_plural_match(ident_tool, target_tool):
                     mapping[ident_tool] = target_tool
-                    break  # 找到一个合理目标后即刻跳出，避免重复分配
+                    break
             
-    # 清理并一对一校验
     valid_mapping = {k: v for k, v in mapping.items() if k in identified and v in target}
     one_to_one = enforce_one_to_one(valid_mapping, log_prefix=f"[{match_key}] ")
     return one_to_one
@@ -98,7 +83,6 @@ def parse_identified_tools(identified_str: str) -> List[str]:
     return [t.strip() for t in identified_str.split(',') if t.strip()]
 
 def calculate_metrics(identified: List[str], target: List[str], target_steps: List[int], matched_details: Dict[str, str], ordered: bool, k_values: List[int]):
-    """基于离线匹配结果和步骤约束，计算评估指标"""
     
     seen = set()
     unique_identified = []
@@ -194,7 +178,6 @@ def calculate_metrics(identified: List[str], target: List[str], target_steps: Li
     }
 
 def save_report(evaluations, stats, output_path, k_list):
-    """保存最终的评估报告到指定路径。"""
     report = {
         "summary": {
             "total_evaluated": stats["valid"],
@@ -226,7 +209,7 @@ def save_report(evaluations, stats, output_path, k_list):
     }
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(report, f, indent=2, ensure_ascii=False)
-    print(f"\n✅ 离线评估报告已保存至 {output_path} (本次共评估了 {stats['valid']} 个 Case)")
+    print(f"\n✅ The offline evaluation report has been saved to {output_path} (total {stats['valid']} cases)")
 
 def main():
     parser = argparse.ArgumentParser(description='Offline tool evaluation checking all cases (Mapping + String Matching)')
@@ -244,23 +227,23 @@ def main():
     k_list = [int(k.strip()) for k in args.k_values.split(',')]
 
     if not os.path.exists(results_path):
-        print(f"❌ 找不到预测文件: {results_path}")
+        print(f"❌ Could not find file: {results_path}")
         return
     with open(results_path, 'r', encoding='utf-8') as f:
         predictions = json.load(f)
 
     if not os.path.exists(args.input):
-        print(f"❌ 找不到 Ground Truth 文件: {args.input}")
+        print(f"❌ Could not find Ground Truth file: {args.input}")
         return
     with open(args.input, 'r', encoding='utf-8') as f:
         ground_truth = {(item['id'], item.get('slot', 0)): item for item in json.load(f)}
 
     if not os.path.exists(match_info_path):
-        print(f"❌ 找不到历史匹配记录文件: {match_info_path}")
+        print(f"❌ Could not find offline matching info file: {match_info_path}")
         return
     with open(match_info_path, 'r', encoding='utf-8') as f:
         offline_match_data = json.load(f)
-    print(f"✅ 成功加载了 {len(offline_match_data)} 条历史匹配记录。")
+    print(f"✅ Successfully loaded {len(offline_match_data)} offline matching records.")
 
     evaluations = []
     stats = {
@@ -277,7 +260,7 @@ def main():
             key = (original_id, slot)
             
             if key not in ground_truth:
-                print(f"⚠️ [Warning] {original_id}_slot_{slot} 找不到对应的 Ground Truth，跳过。")
+                print(f"⚠️ [Warning] {original_id}_slot_{slot} could not find corresponding Ground Truth, skipping.")
                 continue
                 
             gt_item = ground_truth[key]
@@ -289,7 +272,6 @@ def main():
             negative_tools = [t.lower() for t in refined_tax.get("negative_tools", [])]
             ordered = gt_item.get("ordered", True)
             
-            # 使用包含严谨单复数判断规则的离线映射进行匹配
             matched_details = get_offline_matches(original_id, slot, identified, target, offline_match_data)
             
             metrics = calculate_metrics(identified, target, target_steps, matched_details, ordered, k_list)
@@ -339,7 +321,7 @@ def main():
         save_report(evaluations, stats, output_path, k_list)
 
     except KeyboardInterrupt:
-        print("\n用户手动中断，保存当前进度...")
+        print("\nUser manually interrupted, saving current progress...")
         save_report(evaluations, stats, output_path, k_list)
         sys.exit(0)
 

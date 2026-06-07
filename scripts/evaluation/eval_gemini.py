@@ -85,13 +85,10 @@ def get_gemini_matches(task_instruct: str, identified: List[str], target: List[s
         content = res_json['choices'][0]['message']['content']
         raw_mapping = json.loads(content)
 
-        # 统一转为小写，防止大小写差异导致漏匹配
         mapping = {str(k).lower(): str(v).lower() for k, v in raw_mapping.items()}
 
-        # 过滤掉不存在于目标和预测列表中的幻觉键值
         valid_mapping = {k: v for k, v in mapping.items() if k in identified and v in target}
 
-        # 强制执行一对一匹配规则
         one_to_one = enforce_one_to_one(valid_mapping, log_prefix=f"[{task_instruct[:50]}...] ")
         return one_to_one
     except (requests.RequestException, json.JSONDecodeError, ValueError) as e:
@@ -135,10 +132,8 @@ def calculate_metrics_with_gemini(identified: List[str], target: List[str], targ
     recall_value = correct_count / num_target if num_target > 0 else 0.0
 
     success_rate = False
-    # SR: 必须找出数量对齐且完全正确的工具
     if num_unique_identified == num_target and correct_count == num_target:
         if ordered:
-            # 步骤必须是非严格递增（同一步骤工具的顺序无所谓）
             matched_steps = [info["step"] for info in identified_matched_info]
             success_rate = all(matched_steps[i] <= matched_steps[i+1] for i in range(len(matched_steps)-1))
         else:
@@ -155,10 +150,8 @@ def calculate_metrics_with_gemini(identified: List[str], target: List[str], targ
                     if all(t in target for t in prefix_targets):
                         prefix_steps = [target_steps[target.index(t)] for t in prefix_targets]
                         
-                        # 条件1: 保证前 k 个工具在 step 上是非严格递增的
                         is_non_decreasing = all(prefix_steps[i] <= prefix_steps[i+1] for i in range(k-1))
                         
-                        # 条件2: 无跳步漏洞。若选了较大 step 的工具，必须确保所有更小 step 的工具都已经包含在内
                         max_step_in_prefix = max(prefix_steps) if prefix_steps else 0
                         required_prereqs = [t for i, t in enumerate(target) if target_steps[i] < max_step_in_prefix]
                         has_all_prereqs = all(req in prefix_targets for req in required_prereqs)
@@ -172,7 +165,6 @@ def calculate_metrics_with_gemini(identified: List[str], target: List[str], targ
                 sr_at_k[f"k={k}"] = None
 
     poa = None
-    # 计算 target 中存在跨 step 关系的组合数（同 step 视为无约束，不纳入 POA 计算）
     total_pairs_1 = sum(1 for i in range(num_target) for j in range(i+1, num_target) if target_steps[i] < target_steps[j])
     
     if ordered and total_pairs_1 > 0:
@@ -185,7 +177,6 @@ def calculate_metrics_with_gemini(identified: List[str], target: List[str], targ
                 step_i = identified_matched_info[i]["step"]
                 step_j = identified_matched_info[j]["step"]
                 
-                # 仅对存在跨 step 的被识别工具对进行正误判断
                 if step_i != step_j:
                     total_pairs_2 += 1
                     if step_i < step_j:
@@ -344,7 +335,6 @@ def main():
             gt_item = ground_truth[key]
             identified = [t.lower() for t in parse_identified_tools(pred.get("identified_tools", ""))]
             
-            # --- 解析新的 ground_truth 格式 (corrected_tools.json) ---
             refined_tax = gt_item.get("refined_taxonomy", {})
             target = [t.lower() for t in refined_tax.get("target_tools", [])]
             target_steps = refined_tax.get("target_steps", [])
@@ -354,13 +344,11 @@ def main():
             
             print(f"[{idx+1}/{len(predictions)}] Evaluating ID: {original_id} via API...")
 
-            # 仅在有必要时调用 API
             matched_details = get_gemini_matches(task_instruct, identified, target, negative_tools)
             if matched_details is None:
                 print(f"[{idx+1}/{len(predictions)}] ERROR: Skipping ID {original_id} due to Gemini API failure.")
                 continue
             
-            # 使用新版本的计算指标逻辑
             metrics = calculate_metrics_with_gemini(identified, target, target_steps, matched_details, ordered, k_list)
             
             eval_item = {

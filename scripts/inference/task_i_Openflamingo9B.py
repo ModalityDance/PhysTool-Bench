@@ -92,11 +92,8 @@ def load_openflamingo(model_name: str):
 def vqa_image_openflamingo(model, image_processor, tokenizer, device, image_fp, prompt, max_new_tokens=64):
     image = Image.open(image_fp).convert("RGB")
     vision_x = image_processor(image)
-    # OpenFlamingo 期望的维度是 (batch_size, num_media, num_frames, channels, height, width)
     vision_x = vision_x.unsqueeze(0).unsqueeze(1).unsqueeze(1).to(device=device, dtype=DTYPE)
 
-    # 【关键修复】使用 OpenFlamingo 标准的 Zero-shot Prompt 格式
-    # 必须包含 <image> 标签，并使用 Question/Answer 结构引导输出
     full_prompt = f"<image>Question: {prompt} Answer:"
 
     tokenizer.padding_side = "left"
@@ -104,7 +101,6 @@ def vqa_image_openflamingo(model, image_processor, tokenizer, device, image_fp, 
     input_ids = lang_x["input_ids"].to(device)
     attention_mask = lang_x["attention_mask"].to(device)
 
-    # 获取结束标志，OpenFlamingo 通常在生成完一个 chunk 后输出 <|endofchunk|>
     endofchunk_token_id = tokenizer.encode("<|endofchunk|>")[-1]
 
     with torch.no_grad():
@@ -114,9 +110,9 @@ def vqa_image_openflamingo(model, image_processor, tokenizer, device, image_fp, 
             attention_mask=attention_mask,
             max_new_tokens=max_new_tokens,
             num_beams=1,
-            do_sample=False,            # 贪婪解码
+            do_sample=False,            
             pad_token_id=tokenizer.pad_token_id,
-            eos_token_id=endofchunk_token_id, # 【可选优化】遇到 endofchunk 时停止生成
+            eos_token_id=endofchunk_token_id, 
             repetition_penalty=1.2,
             no_repeat_ngram_size=3,
         )

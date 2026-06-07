@@ -6,10 +6,6 @@ import re
 from PIL import Image
 from transformers import AutoModel, AutoTokenizer
 
-# =========================
-# Configurations
-# =========================
-
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "../.."))
 DATA_DIR = os.path.join(PROJECT_ROOT, "data")
@@ -22,9 +18,13 @@ TOOL_IDENTIFICATION_PROMPT = "List all tools in this image. Please provide only 
 MODEL_NAME = 'openbmb/MiniCPM-V-4_5'
 DTYPE = torch.bfloat16 # MiniCPM performs best with bfloat16
 
-# =========================
-# Model Loading
-# =========================
+def resolve_image_path(img_path: str):
+    """Convert ./images/... to absolute path inside DATA_DIR."""
+    if img_path.startswith("./"):
+        relative_part = img_path[2:]  # remove "./"
+        return os.path.join(DATA_DIR, relative_part)
+    return img_path
+
 def load_minicpm(model_name):
     print(f"\nLoading MiniCPM model: {model_name}")
     # MiniCPM-V 4.5 prefers SDPA and bfloat16 for efficiency
@@ -102,6 +102,7 @@ def process_batch(json_file, model_name):
     for index, item in enumerate(data):
         item_id = item.get("id", f"unknown_id_{index}")
         img_path = item.get("image_path", "")
+        img_path = resolve_image_path(img_path)
 
         if item_id in completed_results:
             continue

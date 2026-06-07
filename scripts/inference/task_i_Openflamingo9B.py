@@ -6,9 +6,6 @@ from PIL import Image
 from huggingface_hub import hf_hub_download
 from open_flamingo import create_model_and_transforms
 
-# =========================
-# Configurations
-# =========================
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "../.."))
@@ -41,9 +38,11 @@ if torch.cuda.is_available() and torch.cuda.is_bf16_supported():
 else:
     DTYPE = torch.float32
 
-# =========================
-# Model Loading
-# =========================
+def resolve_image_path(img_path: str) -> str:
+    if img_path.startswith("./"):
+        relative_part = img_path[2:]
+        return os.path.join(DATA_DIR, relative_part)
+    return img_path
 
 def load_openflamingo(model_name: str):
     """Load OpenFlamingo model, processor, and tokenizer."""
@@ -162,6 +161,7 @@ def process_batch(json_file, model_name):
     for index, item in enumerate(data):
         item_id = item.get("id", f"unknown_id_{index}")
         img_path = item.get("image_path", "")
+        img_path = resolve_image_path(img_path)
 
         if item_id in completed_results:
             continue

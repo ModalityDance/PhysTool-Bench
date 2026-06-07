@@ -21,6 +21,12 @@ ENABLE_THINKING = False  # Thinking mode
 STREAM_OUTPUT = True      # Stream answer progressively
 DTYPE = torch.float16
 
+def resolve_image_path(img_path: str) -> str:
+    if img_path.startswith("./"):
+        relative_part = img_path[2:]
+        return os.path.join(DATA_DIR, relative_part)
+    return img_path
+
 # --- Load MiniCPM model ---
 def load_minicpm(model_name):
     print(f"Loading MiniCPM model {model_name}...")
@@ -86,6 +92,7 @@ def process_batch(json_file, model_name):
         item_id = item.get("id", f"unknown_id_{index}")
         task_instruct = item.get("task_instruct", "")
         img_path = item.get("image_path", "")
+        img_path = resolve_image_path(img_path)
 
         if item_id in processed_ids:
             continue

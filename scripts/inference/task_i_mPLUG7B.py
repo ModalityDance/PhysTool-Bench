@@ -5,9 +5,6 @@ import gc
 from PIL import Image
 from transformers import AutoModel, AutoTokenizer
 
-# =========================
-# Configurations
-# =========================
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "../.."))
@@ -24,9 +21,12 @@ MODEL_NAME = "mPLUG/mPLUG-Owl3-7B-241101"
 # Force standard float16 to prevent bfloat16 kernel crashes on this model
 DTYPE = torch.float16 
 
-# =========================
-# Model Loading 
-# =========================
+def resolve_image_path(img_path: str) -> str:
+    if img_path.startswith("./"):
+        relative_part = img_path[2:]
+        return os.path.join(DATA_DIR, relative_part)
+    return img_path
+
 def load_mplug_owl3(model_name: str):
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -127,6 +127,7 @@ def process_batch(json_file, model_name):
     for index, item in enumerate(data):
         item_id = item.get("id", f"unknown_id_{index}")
         img_path = item.get("image_path", "")
+        img_path = resolve_image_path(img_path)
 
         if item_id in completed_results:
             continue

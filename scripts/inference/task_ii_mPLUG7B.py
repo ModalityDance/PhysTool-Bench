@@ -23,6 +23,12 @@ MODEL_NAME = "mPLUG/mPLUG-Owl3-7B-241101"
 # 1. FIXED: Force standard float16. bfloat16 causes kernel crashes on this model.
 DTYPE = torch.float16 
 
+def resolve_image_path(img_path: str) -> str:
+    if img_path.startswith("./"):
+        relative_part = img_path[2:]
+        return os.path.join(DATA_DIR, relative_part)
+    return img_path
+
 # =========================
 # Model Loading 
 # =========================
@@ -161,6 +167,7 @@ def process_batch(json_file, model_name, batch_size=2):
 
         for idx, item in batch:
             img_path = item.get("image_path", "")
+            img_path = resolve_image_path(img_path)
             if os.path.exists(img_path):
                 valid_items.append((idx, item))
                 image_fps.append(img_path)

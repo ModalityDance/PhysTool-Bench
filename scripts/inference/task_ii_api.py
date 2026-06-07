@@ -20,6 +20,12 @@ DEFAULT_INPUT_FILE = os.path.join(DATA_DIR, "generation_checkpoint.json")
 
 TOOL_IDENTIFICATION_PROMPT = "Given the following TASK, which tool(s) in the image are most appropriate to complete the task? Please list the name(s) of the selected tools in the order they should be used and separate them by commas. No explanation needed.\nTASK: {task_instruct}\nSELECTED TOOL(S) (in order of use):"
 
+def resolve_image_path(img_path: str) -> str:
+    if img_path.startswith("./"):
+        relative_part = img_path[2:]
+        return os.path.join(DATA_DIR, relative_part)
+    return img_path
+
 def get_image_mime_type(image_path: str) -> str:
     ext = os.path.splitext(image_path)[1].lower()
     return {'png': 'image/png', '.jpg': 'image/jpg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.webp': 'image/webp'}.get(ext, 'image/png')
@@ -127,6 +133,7 @@ def main():
         print(f"\n[{i}/{len(generated_data)}] ID: {item_data.get('original_id', comp_id)} | Slot: {item_data.get('slot', 'N/A')}")
 
         image_path = item_data["image_path"]
+        image_path = resolve_image_path(image_path)
         if not os.path.exists(image_path):
             print(f"  ✗ Image missing: {image_path}. Skipping.")
             continue

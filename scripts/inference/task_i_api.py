@@ -21,6 +21,13 @@ DEFAULT_INPUT_FILE = os.path.join(DATA_DIR, "generation_checkpoint.json")
 # Updated prompt to ask for all tools, formatted as a comma-separated list
 TOOL_IDENTIFICATION_PROMPT = "List all tools in this image. Please provide only the names of the tools, separated by commas. Do not include any explanations or extra text."
 
+def resolve_image_path(img_path: str) -> str:
+    """Convert ./images/... to absolute path inside DATA_DIR."""
+    if img_path.startswith("./"):
+        relative_part = img_path[2:]  # remove "./"
+        return os.path.join(DATA_DIR, relative_part)
+    return img_path
+
 def get_image_mime_type(image_path: str) -> str:
     ext = os.path.splitext(image_path)[1].lower()
     return {'png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.webp': 'image/webp'}.get(ext, 'image/png')
@@ -127,6 +134,7 @@ def main():
         print(f"\n[{i}/{len(generated_data)}] ID: {item_data.get('original_id', comp_id)}")
 
         image_path = item_data["image_path"]
+        image_path = resolve_image_path(image_path)
         if not os.path.exists(image_path):
             print(f"  Image missing: {image_path}. Skipping.")
             continue

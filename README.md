@@ -237,21 +237,21 @@ Since different models require conflicting versions of transformers and other li
 
 ```
 conda env create -f environments/<model_name>.yml
-conda activate <model_name>_env
+eval "$(conda shell.bash hook)" && conda activate <model_name>_env
 ```
 For example:
 ```
 # For Open-Flamingo
 conda env create -f environments/flamingo.yml
-conda activate flamingo_env
+eval "$(conda shell.bash hook)" && conda activate flamingo_env
 
 # For mPLUG-Owl3
 conda env create -f environments/mplug.yml
-conda activate mplug_env
+eval "$(conda shell.bash hook)" && conda activate mplug_env
 
 # For MiniCPM
 conda env create -f environments/minicpm.yml
-conda activate minicpm_env
+eval "$(conda shell.bash hook)" && conda activate minicpm_env
 ```
 
 #### **Hardware Requirements (recommended to fill)**

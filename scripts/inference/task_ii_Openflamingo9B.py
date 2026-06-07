@@ -56,6 +56,11 @@ else:
     # MPT 架构在 float16 下必然溢出导致 FPE 和乱码。必须回退到 float32。
     DTYPE = torch.float32
 
+def resolve_image_path(img_path: str) -> str:
+    if img_path.startswith("./"):
+        relative_part = img_path[2:]
+        return os.path.join(DATA_DIR, relative_part)
+    return img_path
 
 # =========================
 # Utilities
@@ -238,6 +243,7 @@ def process_batch(json_file, model_name, batch_size=1):
 
         for idx, item in batch:
             img_path = item.get("image_path", "")
+            img_path = resolve_image_path(img_path)
             if os.path.exists(img_path):
                 valid_items.append((idx, item))
                 image_fps.append(img_path)

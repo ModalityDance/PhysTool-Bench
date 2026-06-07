@@ -1,51 +1,3 @@
-> [!NOTE]
-> 🪐 **Internal Template Notice (v1.1)**  
->  
-> This README serves as a **demonstration template (version 1.1)** for internal use within the **ModalityDance**.  
->  
-> **Administrator:** [Hongru Cai](mailto:henry.hongrucai@gmail.com)
->
-> **Update date**: 2026.1.9
->  
-> **Usage scope:** Internal use only. Please do not redistribute or share externally.
-> 
-> If you have questions, suggestions, or proposed improvements to this template, feel free to contact me.
-> 
-> Use GitHub callouts (`[!NOTE]`, `[!TIP]`, `[!IMPORTANT]`, `[!WARNING]`) **selectively** to help readers understand critical information.
-> 
-> Some componets may not render properly in VS Code preview, copy to preview on GitHub if needed.
-
-> [!IMPORTANT]
-> 🪐 **About This Template**  
->  
-> This template provides a **minimal, example-based framework** for releasing research code.  
-> It is intentionally lightweight and designed to be extended with additional components, including:
-> - more demos or runnable examples,
-> - interactive or web-based interfaces,
-> - detailed documentation or tutorials,
-> - PyPI packages or other distribution formats,
-> - or any other project-specific features.
-
-> [!TIP]
-> 🪐 **Customization & Extension**  
->  
-> All visual elements (e.g., icons, styles, figures, layouts) are **fully customizable**.  
-> Feel free to replace or redesign them to better fit your project.
-
-> [!WARNING]
-> 🪐 **Before Public Release**  
-> 
-> - Ensure that the final README contains only **project-specific content**.  
-> - Verify that **all links are clickable and correctly resolved** (paper, code, data, demos).  
-> - Check that **all figures and images render correctly** (paths, formats, and visibility).  
-> - Confirm that the **citation section is complete and up to date**, and matches the final paper version.  
-> - Confirm that a **LICENSE file is present**, and that the information inside the file is accurate.  
-> - Verify that the **project page link is correct and up to date**.
-> - Check that the **News section is current**, and remove any placeholder entries.
-> - Please **remove all instructional comments and internal notes** in this README. 
-
-
-
 <a name="readme-top"></a>
 
 <div align="center">
@@ -73,29 +25,6 @@
 </div>
 
 
-<!--
-Overview
-
-Points:
-
-1. A short paragraph (2–4 sentences) describing:
-    - What the project is.
-    - The main purpose or capability.
-    - What benefit users get.
-    - The scope or application scenario.
-    - The primary components included in this repository.
-
-2. A "Key Features" section.  
-   Each feature should include:
-    - A short title (e.g., "Modular Design", "Fast Training").
-    - A 1–2 sentence explanation of what the feature provides and why it matters.
-   
-3. Add more sections if needed.
-
-4. A main figure image placed under assets/, e.g., assets/overview.png.  
-   This image should visually summarize the system or framework.
-
--->
 
 Welcome to **PhysTool-Bench**! 👋PhysTool-Bench is a benchmark that tests how well Multimodal Large Language Models (MLLMs) can use physical tools in real-world scenes. It checks whether a model can spot the right tools in a messy image, understand what they’re for, and plan the correct order to use them—skills that current MLLMs lack. Researchers get a clear way to measure physical commonsense separately from visual recognition, which helps improve embodied AI for domains like manufacturing, healthcare, and agriculture. The repository includes 2,510 test scenarios, 2,678 real-world tools, evaluation code, and human-verified ground-truth labels.
 
@@ -127,20 +56,6 @@ Provides all prompts, scene descriptions, and human‑checked images. Code and d
 </div>
 
 
-<!--
-News 
-
-Points:
-1. Include chronological updates about the project.
-2. Each news entry should have:
-   - A date in [YYYY.MM] or [YYYY, MMM DD] format.
-   - A short highlight sentence.
-3. Optional but encouraged:
-   - Bullet lists for detailed updates.
-   - Links to papers, project pages, demos, datasets.
-   - Emojis to increase readability.
-
--->
 
 ## 🔥 News 
 
@@ -151,24 +66,6 @@ Points:
 </div>
 
 
-<!--
-Table of Contents
-
-REQUIRED:
-1. Quick Start
-2. How It Works (Method / Framework Overview)
-3. Community
-4. Acknowledgements
-5. Citation
-
-OPTIONAL:
-1. Documentation
-2. TODO List / Roadmap
-3. Examples
-4. How to Use
-5. More sections as needed.
-
--->
 
 ## 📑 Table of Contents <span id="table-of-contents"></span>
 
@@ -185,46 +82,6 @@ OPTIONAL:
 * <a href='#citation'>📚 Citation</a>
 
 
-<!--
-Quick Start (Very Detailed Guide)
-
-REQUIRED:
-1. Environment Installation
-   - Must include conda or virtualenv setup.
-   - Must include Python version requirements.
-   - Must list installation commands (pip or requirements.txt).
-   - Must include GPU/CPU dependency notes if necessary.
-
-2. Dataset Preparation
-   - Instructions for downloading datasets.
-   - Show expected folder structure.
-   - Provide scripts if applicable.
-   - If dataset is on HuggingFace, include "huggingface-cli" usage.
-
-3. Run the Project
-   - Must include detailed commands to run training and/or inference.
-   - Should include training or inference example.
-   - Should be copy-paste friendly.
-   - Must can replicate your main results using these instructions.
-
-OPTIONAL:
-1. API Keys Setup
-   - Required only if project calls external APIs (OpenAI, HF Inference, etc.).
-   - Provide environment variable examples: export, .env file, etc.
-
-2. Pretrained Checkpoints
-   - Links to ckpts (HF Hub, Google Drive, etc.)
-   - Instructions for loading the checkpoint.
-
-3. Launch UI / Demo
-   - Streamlit, Gradio, Web UI—add steps if relevant.
-
-4. Additional Examples
-   - Python code snippets, CLI examples, or config-based usage.
-
-5. Other points as needed.
-
--->
 
 ## 🚀 Quick Start <span id="quick-start"></span>
 
@@ -465,51 +322,10 @@ A high‑level overview is illustrated in the figure below.
 │   └── inference/
 │       ├── task_i_api.py
 │       └── ...
-├── results/                               # created automatically
-│   ├── all_tools_identified_gpt-4o.json   # predictions from task_i_api.py
-│   └── ...
+└── results/                               # created automatically
+    ├── all_tools_identified_gpt-4o.json   # predictions from task_i_api.py
+    └── ...
 ```
-
-<!--
-Community
-
-REQUIRED:
-1. Contributors section or GitHub contributors graph.
-2. Star history chart.
-3. A short paragraph encouraging engagement with the project.
-
-OPTIONAL:
-1. Social groups (Slack, Discord, WeChat, Feishu).
-2. Issue tracker link (GitHub Issues).
-3. Contribution guidelines (link to CONTRIBUTING.md if exists).
-
--->
-
-
-<!--
-Acknowledgements & Citation
-
-
-ACKNOWLEDGEMENTS:
-1. Credit any external libraries, toolkits, or frameworks the project depends on.
-2. Cite related repositories if this project builds upon or is inspired by them.
-3. Acknowledge dataset sources if used.
-4. Claim on licensing or usage rights.
-  1. MIT License (default):
-     Use this for most research code releases when no usage restrictions are required.
-  2. Apache License 2.0:
-     Use this for larger frameworks or systems when explicit patent protection is desired.
-  3. Non-Commercial (NC):
-     Use this only when the project or data must restrict commercial usage.
-5. Acknowledge funding, labs, collaborators, or mentors (optional).
-
-
-CITATION:
-1. Provide BibTeX for the project’s paper.
-2. If the paper is not yet published, use an arXiv placeholder.
-
--->
-
 
 ## 🌱 **Acknowledgements** <span id="acknowledgements"></span>
 

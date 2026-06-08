@@ -291,7 +291,7 @@ An example: We would like to thank the contributors, open-source projects, and r
 - 📚 **Dataset & Classification** – [UNSPSC](https://www.unspsc.org), manual annotation & QC team  
 - 📊 **Inference & Evaluation** – vLLM, custom evaluation scripts (offline, Gemini‑based, fuzzy matching)  
 
-This project is licensed under the **MIT License** for the codebase, while the dataset (images and annotations) is released under **CC BY‑NC 4.0** for non‑commercial research use. It also complies with the licenses of all referenced third‑party projects and dependencies. Please refer to the `LICENSE` file for full details.
+This project is licensed under the **MIT License**. Please refer to the `LICENSE` file for full details.
 
 
 ## 📚 **Citation** <span id="citation"></span>

@@ -1,7 +1,7 @@
 <a name="readme-top"></a>
 
 <div align="center">
-  <img src="./assets/LOGO.png" alt="Project Logo" width="300">
+  <img src="./assets/LOGO.png" alt="Project Logo" width="250">
   <h1 align="center">Beyond APIs: Probing the Limits of MLLMs in Physical Tool Use</h1>
 </div>
 
@@ -17,6 +17,11 @@
     <img src="https://img.shields.io/badge/Paper-arXiv-b31b1b?style=for-the-badge&logo=arxiv" alt="Paper">
   </a>
 
+  <!-- HuggingFace Papers -->
+  <a href="{huggingface_papers_url}">
+    <img src="https://img.shields.io/badge/HuggingFace-Papers-fcc21b?style=for-the-badge&logo=huggingface&logoColor=white" alt="HF Papers">
+  </a>
+
   <!-- HuggingFace Datasets -->
   <a href="https://huggingface.co/datasets/ModalityDance/PhysTool-Bench">
     <img src="https://img.shields.io/badge/HuggingFace-Datasets-fcc21b?style=for-the-badge&logo=huggingface&logoColor=white" alt="HF Datasets">
@@ -26,45 +31,43 @@
 
 
 
-Welcome to **PhysTool-Bench**! 👋PhysTool-Bench is a benchmark that tests how well Multimodal Large Language Models (MLLMs) can use physical tools in real-world scenes. It checks whether a model can spot the right tools in a messy image, understand what they’re for, and plan the correct order to use them—skills that current MLLMs lack. Researchers get a clear way to measure physical commonsense separately from visual recognition, which helps improve embodied AI for domains like manufacturing, healthcare, and agriculture. The repository includes 2,510 test scenarios, 2,678 real-world tools, evaluation code, and human-verified ground-truth labels.
+Welcome to _PhysTool-Bench_! 👋 
+
+**_PhysTool-Bench_ is a benchmark that evaluates how well MLLMs perceive, select, and sequence physical tools in real-world scenes.**
+
+It consists of 2 tasks that separate **visual recognition** from **functional planning**:
+
+- **Task I – Tool Recognition**: List all visible tools in a cluttered scene (image only).  
+- **Task II – Tool Selection & Planning**: Given an **real scenario image** + a **brief task instruction**, output the **ordered sequence** of required tools.
+
+## 📊 Dataset at a Glance
+
+<div align="center">
+
+| Key Numbers | Value |
+|-------------|-------|
+| Total queries (image+task+answers) | 2,510 |
+| Unique physical tools | 2,678 |
+| Tools per scene | 8.6 (3.1 required, 5.5 distractors) |
+
+</div>
 
 
-### 🪐 Key Features
+## 🪐 Key Features
 
-🔍 **Two‑Task Design** 
-Separates tool recognition (find everything in the scene) from task‑driven selection & ordering (choose and sequence the right tools). This reveals whether a model fails because it can’t see the tools or because it doesn’t understand how to use them.
-
-🛠️ **Real‑World Tool Variety**
-Covers 2,678 tools from 57 categories (farming, electrical, healthcare, etc.). Each scene contains ~9 tools with many distractors, mimicking real clutter.
-
-💭 **Challenging Distractors**
-Every task includes 3–10 misleading tools that look or work similarly to the correct ones. Models must reject plausible wrong answers.
-
-📊 **Rich Evaluation Metrics**
-Reports Exact Match (perfect tool set + order), Task‑Completable Rate (allows extra tools), and Success@k (first k steps). No single number hides the real failure modes.
-
-📦 **Ready‑to‑Use Benchmark**
-Provides all prompts, scene descriptions, and human‑checked images. Code and data are available to run on 13+ leading MLLMs (GPT, Gemini, Qwen, etc.).
+- **Two‑Task Design:** Decouples *recognition* (all visible tools) from *planning* (select + order).
+- **Real‑World Tool Variety:** Across 57 categories (manufacturing, healthcare, farming, etc.).
+- **Challenging Distractors:** 3–10 visually/functionally similar decoys per scene.
+- **Rich Evaluation Metrics:** EM, TCR, SR@k, and fine‑grained error analysis.
 
 
 <div align="center">
   <figure>
     <img src="./assets/overview.png" alt="Overview" style="max-width: 70%; height: auto;">
     <br>
-    <figcaption><em>Quick Overview of Project Name.</em></figcaption>
+    <figcaption><em>Quick Overview of PhysTool-Bench.</em></figcaption>
   </figure>
 </div>
-
-
-
-## 🔥 News 
-
-<div style="max-height: 240px; overflow-y: auto;">
-
-- **[2026.06]** Initial release of PhysTool-Bench.
-
-</div>
-
 
 
 ## 📑 Table of Contents <span id="table-of-contents"></span>
@@ -72,14 +75,17 @@ Provides all prompts, scene descriptions, and human‑checked images. Code and d
 
 * <a href='#quick-start'>🚀 Quick Start</a>
   * <a href='#installation'>Installation</a>
-  * <a href='#data'>Data</a>
-  * <a href='#running'>Running</a>
-<!-- * <a href='#examples'>⬇️ Examples</a> -->
+  * <a href='#data'>Download Data</a>
+  * <a href='#infer'>Inference</a>
+  * <a href='#eval'>Evaluation</a>
+
 * <a href='#how-it-works'>✨ How It Works</a>
-<!-- * * <a href='#documentation'>📖 Documentation</a> -->
-<!-- * <a href='#todo'>📝 TODO List</a> -->
 * <a href='#acknowledgements'>🌱 Acknowledgements</a>
 * <a href='#citation'>📚 Citation</a>
+
+<!-- * <a href='#examples'>⬇️ Examples</a> -->
+<!-- * * <a href='#documentation'>📖 Documentation</a> -->
+<!-- * <a href='#todo'>📝 TODO List</a> -->
 
 
 
@@ -88,7 +94,9 @@ Provides all prompts, scene descriptions, and human‑checked images. Code and d
 
 ### 1. Installation <span id="installation"></span>
 
-Since different models require conflicting versions of transformers and other libraries, we provide separate Conda environments for running different model families. Choose the one that matches the model you want to evaluate.
+Since different models require conflicting versions of transformers and other libraries, we provide **separate** Conda environments for running **different model families**. Choose the one that matches the model you want to evaluate.
+
+If you prefer using models via **API** (e.g., GPT-4o), you can **skip** the environment setup and directly run the inference scripts with your API key.
 
 #### **Conda (recommended)**
 
@@ -131,9 +139,7 @@ pip install sentencepiece pillow decord einops minicpmo hyperpyyaml speechbrain 
 * Frameworks: **PyTorch 2.4.0, Transformers (version varies per model), Accelerate**
 
 
-### 2. Data Preparation <span id="data"></span>
-
-#### **Download datasets**
+### 2. Download datasets <span id="data"></span>
 
 ```bash
 chmod +x scripts/download_data.sh
@@ -145,7 +151,7 @@ or download manually from:
 * https://huggingface.co/datasets/ModalityDance/PhysTool-Bench
 
 
-### 3. Running <span id="running"></span>
+### 3. Inference <span id="infer"></span>
 
 #### **Task I Inference**
 
@@ -183,14 +189,17 @@ python scripts/inference/task_ii_<model_name>.py
 python scripts/inference/task_ii_Openflamingo9B.py
 ```
 
-#### **Evaluation for Task I**
+
+### 4. Evaluation <span id="eval"></span>
+
+#### **Task I**
 
 ```bash
 python scripts/evaluation/eval_tool_finding.py \
     --model <model_name> \
     --ground-truth data/corrected_tools.json \
-    --predictions results/all_tools_identified_<model_name>.json \
-    --output-json results/eval_tool_finding_<model_name>.json \
+    --predictions results/all_tools_identified_<model_name>.json \    # predicted tool lists from Task I inference
+    --output-json results/eval_tool_finding_<model_name>.json \       # where evaluation results will be saved
     --match-method {fuzzy|strict}
 
 # For example:
@@ -202,7 +211,7 @@ python scripts/evaluation/eval_tool_finding.py \
     --match-method fuzzy
 ```
 
-#### **Evaluation for Task II**
+#### **Task II**
 
 Use Gemini as a Judge (by API):
 ```bash
@@ -232,104 +241,42 @@ python scripts/evaluation/eval_offline.py -m MiniCPM \
     -k 1,2,3
 ```
 
-<!--
-How It Works (Methods Overview)
-
-
-GOALS OF THIS SECTION:
-1. Provide a clear and brief explanation of how the system or method works.
-2. Make this understandable even for readers who do not yet know the technical details.
-
-Points:
-1. A high-level description of the system architecture or method.
-2. Key components/modules and their roles.
-3. A step-by-step workflow of the main process.
-4. Figures or diagrams to illustrate the method.
-
-Or:
-
-you can organize in your own way as long as it meets the goals above!!!
-
--->
-
 ## ✨ How It Works <span id="how-it-works"></span>
 
-🪐 **PhysTool‑Bench** is the first benchmark dedicated to evaluating how well Multimodal Large Language Models (MLLMs) perceive, select, and sequence physical tools in realistic scenes.  
-The benchmark is built through a semi‑automated pipeline and evaluates models along two progressive axes: **Tool Recognition** (Task I) and **Tool Selection & Action Planning** (Task II).
-
-### 🔧 Dataset Construction Pipeline
-
-The benchmark is constructed in three main stages:
-
-1. **Tool Bank Initialization & Extension**  
-   - Start with 310 manually curated tools, then expand to 2,678 distinct tools across 57 UNSPSC segments.  
-   - New distractors generated during query creation are recycled back into the bank, systematically adding functionally adjacent confounders.
-
-2. **Query Generation** (see Figure 2 in the paper)  
-   - *Target combinations*: 1 – 3 tools per query (310 single‑tool, 500 two‑tool, 500 three‑tool).  
-   - *Step labeling*: Each tool is assigned an execution‑step index (same index → interchangeable; lower index → must precede higher index).  
-   - *Instruction & distractor injection*: A natural‑language task instruction is written (without naming any tool). 3 – 10 distractors (visually or functionally similar) are added.  
-   - *Image description*: A detailed scene description lists every candidate tool and specifies realistic placement (random, partially hidden).  
-   - *Rendering*: Images are generated with Nano Banana Pro, following strict physical laws.
-
-3. **Multi‑Stage Quality Assurance**  
-   - **QC‑I** (Ground truth verification): Gemini‑3.1‑Pro audits whether each tool is essential, professional, and supports a valid execution order.  
-   - **QC‑II** (Description alignment): Programmatic check that every tool mentioned in the description also appears in the rendered image.  
-   - **QC‑III** (Visual quality): Human review to filter unrealistic or artificially cued images (e.g., highlighted target tools).  
-   - Final dataset: **2,510 verified queries**, each with an image `I`, instruction `L`, target tool set, step labels, and distractor set.
-
-### 🧠 Evaluation Framework
-
-Models are evaluated in a **zero‑shot** setting (no fine‑tuning or few‑shot examples). Two tasks isolate the perceptual vs. reasoning bottleneck:
-
-| Task | Input | Output | Goal |
-|------|-------|--------|------|
-| **Task I – Recognition** | Image only | Comma‑separated list of *all* tools visible | Measure raw visual enumeration |
-| **Task II – Planning** | Image + instruction | Ordered list of tools required to complete the task | Measure functional grounding & sequencing |
-
-### 📊 Metrics & Error Analysis
-
-- **Task I** – Precision, Recall, F1 against the full set of tools present in the scene.  
-- **Task II** –  
-  - *Exact Match (EM)*: strict equality of tool set and execution order.  
-  - *Task‑Completable Rate (TCR)*: all target tools present in a step‑consistent order (extra tools allowed).  
-  - *Success Rate @k (SR@k)*: EM restricted to the first `k` predicted tools.  
-  - *Order‑agnostic F1*: selection accuracy without order constraints.  
-- **Error decomposition** – Predictions are classified into: Exact Match, Extra Only, Missing Only, Substitute, Out‑of‑Order. Manual root‑cause analysis identifies functional substitution as the dominant failure mode.
-
-
-A high‑level overview is illustrated in the figure below.
+_PhysTool-Bench_ is built through **controlled expansion and iterative refinement** — starting from a seed set of tools, growing organically, and verifying every step.
 
 <div align="center">
   <figure>
-    <img src="./assets/physTool_bench_pipeline.png" alt="PhysTool-Bench Pipeline" style="max-width: 100%; height: auto;">
+    <img src="./assets/physTool_bench_pipeline.png" alt="Pipeline" style="max-width: 90%; height: auto;">
     <br>
-    <figcaption><em>Overview of the PhysTool‑Bench construction and evaluation pipeline (adapted from Figure 2 of the paper).</em></figcaption>
+    <figcaption><em>Three-stage construction (left) and two-task evaluation (right).</em></figcaption>
   </figure>
 </div>
 
-### 🗂️ Project Structure
-```
-.
-├── data/
-│   ├── images/  
-│   ├── corrected_tools.json               # ground truth
-│   └── ...
-├── scripts/
-│   ├── evaluation/
-│       ├── eval_tool_finding.py
-│       └── ...
-│   └── inference/
-│       ├── task_i_api.py
-│       └── ...
-└── results/                               # created automatically
-    ├── all_tools_identified_gpt-4o.json   # predictions from task_i_api.py
-    └── ...
-```
+
+### 🏗️ 1. Tool Bank: Grow from Seeds, Not Everything at Once
+
+- Start with **310 manually curated tools**, then iteratively expand.
+- **Recycle novel distractors** generated during query creation back into the bank.
+- → Covers **2,678 tools** across 57 categories, avoids artificial “tool spotting”, and ensures **broad + balanced** coverage.
+
+### 🔍 2. Query Generation + QC: Relentless Refinement
+
+- **Distractors**: 3–10 per scene, visually *or* functionally similar to targets. 86.9% tasks require strict order.
+- **Three QC stages** (LLM necessity audit → programmatic alignment → human visual review) to remove ambiguity, artificial cues, or physically unrealistic images.
+- → Every query has a **clear, verifiable ground truth** (humans reach 75% EM on familiar tasks).
+
+### 🧪 3. Two‑Task Evaluation: Pinpoint Where Models Fail
+
+- **Task I (Recognition)** – image only → list *all* visible tools. Measures pure visual enumeration.
+- **Task II (Planning)** – image + instruction → ordered required tools. Measures functional mapping + sequencing.
+- If a model sees correctly (Task I) but plans poorly (Task II), the bottleneck is **physical commonsense**, not vision.
+
+
 
 ## 🌱 **Acknowledgements** <span id="acknowledgements"></span>
 
-An example: We would like to thank the contributors, open-source projects, and research communities whose work made **PhysTool-Bench** possible. This project builds upon ideas, tools, and datasets developed by the broader machine learning and information retrieval ecosystem. 
+An example: We would like to thank the contributors, open-source projects, and research communities whose work made **_PhysTool-Bench_** possible. This project builds upon ideas, tools, and datasets developed by the broader machine learning and information retrieval ecosystem. 
 
 - 🖼️ **Image Generation** – [Nano Banana Pro](https://www.nanobanana.ai) (synthetic scene rendering)  
 - 🧠 **Open‑weight Models**  
@@ -349,7 +296,7 @@ This project is licensed under the **MIT License** for the codebase, while the d
 
 ## 📚 **Citation** <span id="citation"></span>
 
-If you use **PhysTool-Bench** in your research or applications, please consider citing:
+If you use **_PhysTool-Bench_** in your research or applications, please consider citing:
 
 ```bibtex
 @article{PhysTool-Bench2026,
@@ -376,6 +323,6 @@ If you use **PhysTool-Bench** in your research or applications, please consider 
   <img src="https://img.shields.io/badge/💬 Discussions-20c997?style=for-the-badge&logo=github" />
 </a>
 <br/>
-⭐ <b>Thank you for visiting PhysTool-Bench!</b> ⭐
+⭐ <b>Thank you for visiting <em>PhysTool-Bench</em>!</b> ⭐
 
 </div>

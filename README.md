@@ -8,7 +8,7 @@
 <div align="center">
 
   <!-- Project Page -->
-  <a href="{https://modalitydance.github.io/PhysTool-Bench/}">
+  <a href="https://modalitydance.github.io/PhysTool-Bench/">
     <img src="https://img.shields.io/badge/Project-Page-6a5acd?style=for-the-badge" alt="Project Page">
   </a>
 

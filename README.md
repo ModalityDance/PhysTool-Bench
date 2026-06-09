@@ -278,7 +278,7 @@ _PhysTool-Bench_ is built through **controlled expansion and iterative refinemen
 
 An example: We would like to thank the contributors, open-source projects, and research communities whose work made **_PhysTool-Bench_** possible. This project builds upon ideas, tools, and datasets developed by the broader machine learning and information retrieval ecosystem. 
 
-- 🖼️ **Image Generation** – [Nano Banana Pro](https://www.nanobanana.ai) (synthetic scene rendering)  
+- 🖼️ **Image Generation** – [Nano Banana Pro](https://aistudio.google.com/models/nano-banana) (synthetic scene rendering)  
 - 🧠 **Open‑weight Models**  
   - [MiniCPM‑V](https://github.com/OpenBMB/MiniCPM-V)  
   - [mPLUG‑Owl3](https://github.com/X-PLUG/mPLUG-Owl)  
@@ -288,7 +288,7 @@ An example: We would like to thank the contributors, open-source projects, and r
   - [Kimi‑VL](https://github.com/MoonshotAI/Kimi-VL)  
   - [Ovis](https://github.com/AIDC-AI/Ovis)  
 - 💻 **Code & Libraries** – [🤗 Transformers](https://github.com/huggingface/transformers), [vLLM](https://github.com/vllm-project/vllm), [PyTorch](https://pytorch.org), [PIL](https://python-pillow.org), [requests](https://requests.readthedocs.io)  
-- 📚 **Dataset & Classification** – [UNSPSC](https://www.unspsc.org), manual annotation & QC team  
+- 📚 **Dataset & Classification** – [UNSPSC](https://www.ungm.org/Public/UNSPSC), manual annotation & QC team  
 - 📊 **Inference & Evaluation** – vLLM, custom evaluation scripts (offline, Gemini‑based, fuzzy matching)  
 
 This project is licensed under the **MIT License**. Please refer to the `LICENSE` file for full details.
@@ -301,7 +301,7 @@ If you use **_PhysTool-Bench_** in your research or applications, please conside
 ```bibtex
 @article{PhysTool-Bench2026,
   title        = {Beyond APIs: Probing the Limits of MLLMs in Physical Tool Use},
-  author       = {Zhixin Ma and Yutong Zhou and Yongqi Li},
+  author       = {Zhixin Ma and Yutong Zhou and Yongqi Li and Chong Wah Ngo and Wenjie Li},
   journal      = {arXiv preprint arXiv:{xxxx.xxxxx}},
   year         = {2026}
 }

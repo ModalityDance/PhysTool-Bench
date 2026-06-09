@@ -59,7 +59,7 @@ Release checklist:
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{Project Title}</title>
+  <title>PhysTool-Bench</title>
 
   <style>
     :root {
@@ -352,11 +352,11 @@ Release checklist:
       <div class="subtitle"><strong>A benchmark for physical tool perception, selection, and sequencing in real-world scenes</strong></div>
 
       <div class="authors">
-        <a href="{author1_homepage}" target="_blank" rel="noopener">Zhixin Ma</a><sup>1</sup>,
-        <a href="{https://zhixinma.github.io}" target="_blank" rel="noopener">Yutong Zhou</a><sup>2</sup>,
-        <a href="{https://liyongqi67.github.io}" target="_blank" rel="noopener">Yongqi Li</a><sup>2</sup>
-        <a href="{author4_homepage}" target="_blank" rel="noopener">Chong-Wah Ngo</a><sup>1</sup>
-        <a href="{https://www4.comp.polyu.edu.hk/~cswjli/}" target="_blank" rel="noopener">Wenjie Li</a><sup>2</sup>
+        <a href="https://zhixinma.github.io" target="_blank" rel="noopener">Zhixin Ma</a><sup>1</sup>,
+        <a target="_blank" rel="noopener">Yutong Zhou</a><sup>2</sup>,
+        <a href="https://liyongqi67.github.io" target="_blank" rel="noopener">Yongqi Li</a><sup>2</sup>
+        <a target="_blank" rel="noopener">Chong-Wah Ngo</a><sup>1</sup>
+        <a href="https://www4.comp.polyu.edu.hk/~cswjli/" target="_blank" rel="noopener">Wenjie Li</a><sup>2</sup>
 
       </div>
 
@@ -377,9 +377,8 @@ Release checklist:
     </header>
 
     <section>
-      <h2>✨ TL;DR</h2>
       <div>
-        PhysTool‑Bench tests how well Multimodal Large Language Models (MLLMs) can spot physical tools in messy images, understand their functions, and plan the correct order to use them—skills that current MLLMs lack. The benchmark contains <strong>2,510 test scenarios</strong>, <strong>2,678 real-world tools</strong>, evaluation code, and human-verified ground truth.
+        <strong><em>PhysTool‑Bench</em></strong> tests how well Multimodal Large Language Models (MLLMs) can spot physical tools in messy images, understand their functions, and plan the correct order to use them—skills that current MLLMs lack. The benchmark contains <strong>2,510 test scenarios</strong>, <strong>2,678 real-world tools</strong>, evaluation code, and human-verified ground truth.
         <figure align="center">
           <img src="./assets/overview.png" alt="Overview" style="max-width: 70%; height: auto;">
           <br>
@@ -412,11 +411,11 @@ practical embodied AI.
     <section>
       <h2>🧠 Method</h2>
       <div class="card">
-        <p>PhysTool‑Bench is constructed through a semi‑automated pipeline with three stages: (1) <strong>Tool bank initialization & extension</strong> (2,678 tools from 57 UNSPSC segments), (2) <strong>Query generation</strong> with target tool combinations (1–3 tools per scene), step labeling, natural language instructions, and distractor injection, followed by realistic rendering using Nano Banana Pro, and (3) <strong>multi‑stage quality assurance</strong> (Gemini‑3.1 auditing, programmatic description‑image alignment, human review).</p>
+        <p><em>PhysTool‑Bench</em> is constructed through a semi‑automated pipeline with three stages: (1) <strong>Tool bank initialization & extension</strong> (2,678 tools from 57 UNSPSC segments), (2) <strong>Query generation</strong> with target tool combinations (1–3 tools per scene), step labeling, natural language instructions, and distractor injection, followed by realistic rendering using Nano Banana Pro, and (3) <strong>multi‑stage quality assurance</strong> (Gemini‑3.1 auditing, programmatic description‑image alignment, human review).</p>
         <p>Evaluation is zero‑shot. Task I measures raw visual enumeration (precision, recall, F1). Task II evaluates planning with metrics including <strong>Exact Match (EM)</strong>, <strong>Task‑Completable Rate (TCR)</strong>, <strong>Success@k</strong>, and order‑agnostic F1, plus root‑cause error classification.</p>
         <figure>
           <img src="./assets/physTool_bench_pipeline.png" alt="PhysTool-Bench construction and evaluation pipeline">
-          <figcaption>Overview of the PhysTool‑Bench construction and evaluation pipeline (adapted from Figure 2 of the paper).</figcaption>
+          <figcaption>Overview of the <em>PhysTool‑Bench</em> construction and evaluation pipeline (adapted from Figure 2 of the paper).</figcaption>
         </figure>
       </div>
     </section>
@@ -444,9 +443,9 @@ practical embodied AI.
         <button class="copy-btn" id="copy-btn">Copy</button>
         Please consider citing our work if you find it useful:
         <pre id="bibtex">
-@misc{PhysTool-Bench2025,
-  title   = {Beyond APIs: Probing the Limits of MLLMs in Physical Tool Use},
-  author  = {Zhixin Ma and Yutong Zhou and Yongqi Li},
+@article{PhysTool-Bench2026,
+  title        = {Beyond APIs: Probing the Limits of MLLMs in Physical Tool Use},
+  author       = {Zhixin Ma and Yutong Zhou and Yongqi Li and Chong Wah Ngo and Wenjie Li},
   year    = {2026},
   eprint  = {xxxx.xxxxx},
   archivePrefix = {arXiv},
@@ -461,13 +460,13 @@ practical embodied AI.
       <h2>🙏 Acknowledgements</h2>
       <div class="card">
         <p>
-          We would like to thank the contributors, open‑source projects, and research communities whose work made <strong>PhysTool‑Bench</strong> possible.
+          We would like to thank the contributors, open‑source projects, and research communities whose work made <strong><em>PhysTool‑Bench</em></strong> possible.
         </p>
         <ul>
-          <li>🖼️ <strong>Image Generation</strong> – <a href="https://www.nanobanana.ai" target="_blank">Nano Banana Pro</a> (synthetic scene rendering)</li>
+          <li>🖼️ <strong>Image Generation</strong> – <a href="https://aistudio.google.com/models/nano-banana" target="_blank">Nano Banana Pro</a> (synthetic scene rendering)</li>
           <li>🧠 <strong>Open‑weight Models</strong> – <a href="https://github.com/OpenBMB/MiniCPM-V" target="_blank">MiniCPM‑V</a>, <a href="https://github.com/X-PLUG/mPLUG-Owl" target="_blank">mPLUG‑Owl3</a>, <a href="https://github.com/mlfoundations/open_flamingo" target="_blank">OpenFlamingo</a>, <a href="https://github.com/OpenGVLab/InternVL" target="_blank">InternVL</a>, <a href="https://github.com/deepseek-ai/DeepSeek-VL" target="_blank">DeepSeek‑VL</a>, <a href="https://github.com/MoonshotAI/Kimi-VL" target="_blank">Kimi‑VL</a>, <a href="https://github.com/AIDC-AI/Ovis" target="_blank">Ovis</a></li>
           <li>💻 <strong>Code & Libraries</strong> – <a href="https://github.com/huggingface/transformers" target="_blank">🤗 Transformers</a>, <a href="https://github.com/vllm-project/vllm" target="_blank">vLLM</a>, <a href="https://pytorch.org" target="_blank">PyTorch</a>, PIL, requests</li>
-          <li>📚 <strong>Dataset & Classification</strong> – <a href="https://www.unspsc.org" target="_blank">UNSPSC</a>, manual annotation & QC team</li>
+          <li>📚 <strong>Dataset & Classification</strong> – <a href="https://www.ungm.org/Public/UNSPSC" target="_blank">UNSPSC</a>, manual annotation & QC team</li>
         </ul>
         <p>This project is licensed under the <strong>MIT License</strong>. Please refer to the <code>LICENSE</code> file for full details.</p>
       </div>

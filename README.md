@@ -287,7 +287,7 @@ An example: We would like to thank the contributors, open-source projects, and r
   - [DeepSeek‑VL](https://github.com/deepseek-ai/DeepSeek-VL)  
   - [Kimi‑VL](https://github.com/MoonshotAI/Kimi-VL)  
   - [Ovis](https://github.com/AIDC-AI/Ovis)  
-- 💻 **Code & Libraries** – [🤗 Transformers](https://github.com/huggingface/transformers), [vLLM](https://github.com/vllm-project/vllm), [PyTorch](https://pytorch.org), [PIL](https://python-pillow.org), [requests](https://requests.readthedocs.io)  
+- 💻 **Code & Libraries** – [🤗 Transformers](https://github.com/huggingface/transformers), [vLLM](https://github.com/vllm-project/vllm), [PyTorch](https://pytorch.org), [PIL](https://pypi.org/project/pillow/), [requests](https://requests.readthedocs.io)  
 - 📚 **Dataset & Classification** – [UNSPSC](https://www.ungm.org/Public/UNSPSC), manual annotation & QC team  
 - 📊 **Inference & Evaluation** – vLLM, custom evaluation scripts (offline, Gemini‑based, fuzzy matching)  
 

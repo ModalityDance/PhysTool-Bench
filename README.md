@@ -13,7 +13,7 @@
   </a>
 
   <!-- Paper Link -->
-  <a href="{paper_url}">
+  <a href="https://arxiv.org/abs/2606.10803">
     <img src="https://img.shields.io/badge/Paper-arXiv-b31b1b?style=for-the-badge&logo=arxiv" alt="Paper">
   </a>
 

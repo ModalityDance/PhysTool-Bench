@@ -18,7 +18,7 @@
   </a>
 
   <!-- HuggingFace Papers -->
-  <a href="{huggingface_papers_url}">
+  <a href="https://huggingface.co/papers/2606.10803">
     <img src="https://img.shields.io/badge/HuggingFace-Papers-fcc21b?style=for-the-badge&logo=huggingface&logoColor=white" alt="HF Papers">
   </a>
 
@@ -301,13 +301,11 @@ If you use **_PhysTool-Bench_** in your research or applications, please conside
 ```bibtex
 @article{PhysTool-Bench2026,
   title        = {Beyond APIs: Probing the Limits of MLLMs in Physical Tool Use},
-  author       = {Zhixin Ma and Yutong Zhou and Yongqi Li and Chong Wah Ngo and Wenjie Li},
-  journal      = {arXiv preprint arXiv:{xxxx.xxxxx}},
+  author       = {Zhixin Ma and Yutong Zhou and Yongqi Li and Chong-Wah Ngo and Wenjie Li},
+  journal      = {arXiv preprint arXiv:2606.10803},
   year         = {2026}
 }
 ```
-
-<!-- Modify the repository URL accordingly. -->
 
 <div align="center">
 

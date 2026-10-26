@@ -31,9 +31,9 @@
 
 
 
-Welcome to _PhysTool-Bench_! 👋 
+Welcome to _PTU-Bench_ (_Physical Tool-Use benchmark_)! 👋
 
-**_PhysTool-Bench_ is a benchmark that evaluates how well MLLMs perceive, select, and sequence physical tools in real-world scenes.**
+**_PTU-Bench_ evaluates how well MLLMs perceive, select, and sequence physical tools in real-world scenes.**
 
 It consists of 2 tasks that separate **visual recognition** from **functional planning**:
 
@@ -65,7 +65,7 @@ It consists of 2 tasks that separate **visual recognition** from **functional pl
   <figure>
     <img src="./assets/overview.png" alt="Overview" style="max-width: 70%; height: auto;">
     <br>
-    <figcaption><em>Quick Overview of PhysTool-Bench.</em></figcaption>
+    <figcaption><em>Quick Overview of PTU-Bench.</em></figcaption>
   </figure>
 </div>
 
@@ -243,11 +243,11 @@ python scripts/evaluation/eval_offline.py -m MiniCPM \
 
 ## ✨ How It Works <span id="how-it-works"></span>
 
-_PhysTool-Bench_ is built through **controlled expansion and iterative refinement** — starting from a seed set of tools, growing organically, and verifying every step.
+_PTU-Bench_ is built through **controlled expansion and iterative refinement** — starting from a seed set of tools, growing organically, and verifying every step.
 
 <div align="center">
   <figure>
-    <img src="./assets/physTool_bench_pipeline.png" alt="Pipeline" style="max-width: 90%; height: auto;">
+    <img src="./assets/ptu_bench_pipeline.png" alt="Pipeline" style="max-width: 90%; height: auto;">
     <br>
     <figcaption><em>Three-stage construction (left) and two-task evaluation (right).</em></figcaption>
   </figure>
@@ -276,7 +276,7 @@ _PhysTool-Bench_ is built through **controlled expansion and iterative refinemen
 
 ## 🌱 **Acknowledgements** <span id="acknowledgements"></span>
 
-An example: We would like to thank the contributors, open-source projects, and research communities whose work made **_PhysTool-Bench_** possible. This project builds upon ideas, tools, and datasets developed by the broader machine learning and information retrieval ecosystem. 
+An example: We would like to thank the contributors, open-source projects, and research communities whose work made **_PTU-Bench_** possible. This project builds upon ideas, tools, and datasets developed by the broader machine learning and information retrieval ecosystem.
 
 - 🖼️ **Image Generation** – [Nano Banana Pro](https://aistudio.google.com/models/nano-banana) (synthetic scene rendering)  
 - 🧠 **Open‑weight Models**  
@@ -296,10 +296,10 @@ This project is licensed under the **MIT License**. Please refer to the `LICENSE
 
 ## 📚 **Citation** <span id="citation"></span>
 
-If you use **_PhysTool-Bench_** in your research or applications, please consider citing:
+If you use **_PTU-Bench_** in your research or applications, please consider citing:
 
 ```bibtex
-@article{PhysTool-Bench2026,
+@article{PTU-Bench2026,
   title        = {Beyond APIs: Probing the Limits of MLLMs in Physical Tool Use},
   author       = {Zhixin Ma and Yutong Zhou and Yongqi Li and Chong-Wah Ngo and Wenjie Li},
   journal      = {arXiv preprint arXiv:2606.10803},
@@ -321,6 +321,6 @@ If you use **_PhysTool-Bench_** in your research or applications, please conside
   <img src="https://img.shields.io/badge/💬 Discussions-20c997?style=for-the-badge&logo=github" />
 </a>
 <br/>
-⭐ <b>Thank you for visiting <em>PhysTool-Bench</em>!</b> ⭐
+⭐ <b>Thank you for visiting <em>PTU-Bench</em>!</b> ⭐
 
 </div>

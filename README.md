@@ -12,8 +12,6 @@
     <img src="https://img.shields.io/badge/Project-Page-6a5acd?style=for-the-badge" alt="Project Page">
   </a>
 
-  <br>
-
   <!-- Paper Link -->
   <a href="https://arxiv.org/abs/2606.10803">
     <img src="https://img.shields.io/badge/Paper-arXiv-b31b1b?style=for-the-badge&logo=arxiv" alt="Paper">
